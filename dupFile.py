@@ -1,7 +1,7 @@
 import os
 
 duplicates = []
-files = []
+files = {}
 
 if __name__ == '__main__':
     path = r"C:\Users\cannistrarod\Documents"
@@ -10,15 +10,16 @@ if __name__ == '__main__':
         info = os.stat(fullPath)
         print filename, info.st_mtime, info.st_mode
 
-        for file in files:
-            if ((info.st_size, info.st_mtime) == file[3]):
-                dup = (file[0], filename)
-                if (info.st_ctime > file[2]):
-                    dup = (filename, file[0])
-                duplicates.append(dup)
+        data = (info.st_size, info.st_mtime)
+
+        if (data in files):
+            dup = (files[data][0], filename)
+            if (info.st_ctime > files[data][1]):
+                dup = (filename, files[data][0])
+            duplicates.append(dup)
 
         if (info.st_mode == 33206):
-            files.append([filename, fullPath, info.st_ctime, (info.st_size, info.st_mtime)])
+            files[data] = (filename, info.st_ctime)
 
 
         #print info
