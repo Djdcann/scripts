@@ -29,26 +29,28 @@ def send_email(user, pwd, recipient, subject, body):
 
         
 ORG_EMAIL   = "@gmail.com"
-FROM_EMAIL  = "yourEmailAddress" + ORG_EMAIL
-FROM_PWD    = "yourPassword"
+FROM_EMAIL  = "super" + ORG_EMAIL
+FROM_PWD    = "secret"
 SMTP_SERVER = "imap.gmail.com"
 
 def read_email_from_gmail():
     try:
         mail = imaplib.IMAP4_SSL(SMTP_SERVER)#port 993
-        mail.login(FROM_EMAIL,FROM_PWD)
-        mail.select('inbox')
+        mail.login(FROM_EMAIL, FROM_PWD)
+        mail.select('Bandcamp')
+        #mail.create('godlike')
+        print mail.list()
+        typ, data = mail.search(None, '(SUBJECT "new alhambra")')
+        mail_ids = data[0].split()
+        print mail_ids
 
-        type, data = mail.search(None, 'ALL')
-        mail_ids = data[0]
+        #id_list = mail_ids.split()
+        #first_email_id = int(id_list[0])
+        #latest_email_id = int(id_list[-1])
 
-        id_list = mail_ids.split()   
-        first_email_id = int(id_list[0])
-        latest_email_id = int(id_list[-1])
-
-
-        for i in range(latest_email_id,first_email_id, -1):
-            typ, data = mail.fetch(i, '(RFC822)' )
+        for i in xrange(3, 0, -1):
+            typ, data = mail.fetch(i, '(RFC822)')
+            print typ
 
             for response_part in data:
                 if isinstance(response_part, tuple):
@@ -57,6 +59,20 @@ def read_email_from_gmail():
                     email_from = msg['from']
                     print 'From : ' + email_from + '\n'
                     print 'Subject : ' + email_subject + '\n'
+                    if msg.is_multipart():
+                        for payload in msg.walk():
+                            # if payload.is_multipart(): ...
+                            print payload.get_content_type()
+                            if payload.get_content_type() == 'text/plain':
+                                print payload.get_payload(decode=True)
+                    else:
+                        print msg.get_payload(decode=True)
+                else:
+                    print 'wow'
 
     except Exception, e:
         print str(e)
+
+
+if __name__ == '__main__':
+    read_email_from_gmail()
