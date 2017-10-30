@@ -3,7 +3,7 @@ import re
 import os
 import urllib
 
-
+#download music from bandcamp URL
 def bandcamp_download(url):
     site = urllib.urlopen(url)
     url_data = url.split('/')
@@ -17,7 +17,7 @@ def bandcamp_download(url):
         album = url_data[4]
 
     #remove non-valid characters from path
-    album = re.sub(r'[^\w\-_\. ]', '_', album)
+    album = validate(album)
 
     print 'downloading %s' % album
 
@@ -30,9 +30,10 @@ def bandcamp_download(url):
 
     #foreach song in album
     for i in data:
-        print 'downloading %s...' % i['title']
+        file = validate(i['title'])
+        print 'downloading %s...' % file
         print i['file']['mp3-128']
-        path = '%s/%s.mp3' % (album, re.sub(r'[^\w\-_\. ]', '_', i['title']))
+        path = '%s/%s.mp3' % (album, file)
         mp3 = i['file']['mp3-128']
 
         #dl the file
@@ -43,7 +44,12 @@ def bandcamp_download(url):
                 urllib.urlretrieve("https:" + mp3, path)
         except Exception as e:
             print e
+            
+    return album
 
+#validate directory or file name
+def validate(name):
+    return re.sub(r'[^\w\-_\. ]', '_', name)
 
 if __name__ == '__main__':
     get_url = "https://strawberrygirls.bandcamp.com/track/first-kiss"
