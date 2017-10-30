@@ -6,9 +6,15 @@ import urllib
 
 def bandcamp_download(url):
     site = urllib.urlopen(url)
+    url_data = url.split('/')
     html = site.read()
-    m = re.search(r'(?<=album_title: )"(.+)"', html)
-    album = m.group(1)
+    
+    #determine if url is to album or track
+    if url_data[3] == 'album':
+        m = re.search(r'(?<=album_title: )"(.+)"', html)
+        album = m.group(1)
+    else:
+        album = url_data[4]
 
     #remove non-valid characters from path
     album = re.sub(r'[^\w\-_\. ]', '_', album)
@@ -40,5 +46,6 @@ def bandcamp_download(url):
 
 
 if __name__ == '__main__':
-    get_url = "https://goodfightent.bandcamp.com/album/axis-seraph-the-light"
+    get_url = "https://strawberrygirls.bandcamp.com/track/first-kiss"
+    #print get_url.split('/')
     bandcamp_download(get_url)
