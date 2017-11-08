@@ -10,7 +10,7 @@ def bandcamp_download(url):
     html = site.read()
     
     #determine if url is to album or track
-    if url_data[3] == 'album':
+    if len(url_data) < 5 or url_data[3] == 'album':
         m = re.search(r'(?<=album_title: )"(.+)"', html)
         album = m.group(1)
     else:
@@ -19,7 +19,7 @@ def bandcamp_download(url):
     #remove non-valid characters from path
     album = validate(album)
 
-    print 'downloading %s' % album
+    print 'downloading album/track %s' % album
 
     m = re.search(r'(?<=trackinfo: )\[\{.+\}\]', html)
 
@@ -52,6 +52,6 @@ def validate(name):
     return re.sub(r'[^\w\-_\. ]', '_', name)
 
 if __name__ == '__main__':
-    get_url = "https://strawberrygirls.bandcamp.com/track/first-kiss"
+    get_url = "https://birocratic.bandcamp.com/album/beets"
     #print get_url.split('/')
     bandcamp_download(get_url)
