@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+    <title>Volunteer-Home</title>
+
+	<script type="text/javascript">
+	
+	$(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "api/get_rooms.php",
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (msg) {
+                console.log(msg);
+            }
+        });
+		
+		//$.ajax({
+        //    type: "POST",
+        //    url: "api/get_rooms.php",
+        //    data: JSON.stringify({
+        //        id: id,
+        //        reviewer: user,
+        //        approved: $('input[name=approved]:checked').val() == "yes",
+        //        comment: $('#reviewComment').val()
+        //    }),
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (res) {
+        //        console.log(res);
+        //    },
+        //    error: function (msg) {
+        //        console.log(msg);
+        //    }
+        //});
+    });
+	
+	</script>
+  </head>
+
+  <body>
+  </body>
+
+</html>
