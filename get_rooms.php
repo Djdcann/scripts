@@ -2,8 +2,8 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "";
-$dbname = "db";
+$password = "59BwheAFCi5Z";
+$dbname = "witsofteng";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = sprintf('SELECT * FROM Rooms WHERE id = $_POST['id']');
+$sql = sprintf('SELECT * FROM Rooms WHERE id = $_POST['RoomID']');
 
 $result = $conn->query($sql)
 
