@@ -13,23 +13,25 @@ def neighbors(x, y):
     y2 = y+1 if y+1 < c else y
     return np.sum(board[x1:x2+1, y1:y2+1])
 
-def set(x, y):
+def getNextVal(x, y):
     n = neighbors(x, y)
     if n < 2:
-        current[x, y] = 0
+        return 0
     elif n < 5:
-        current[x, y] = 1
+        return 1
     else:
-        current[x, y] = 0
+        return 0
 
 def step():
     global board
     for i in range(c):
         for j in range(c):
-            set(i, j)
+            current[i, j] = getNextVal(i, j)
 
     board = current
-    print('\n', current)
+    print(current)
 
 print(board)
-step()
+for i in range(1, 21):
+    print('%d.' % i)
+    step()
