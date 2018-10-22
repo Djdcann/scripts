@@ -20,10 +20,12 @@ def neighbors(x, y):
 
 def getNextVal(x, y):
     n = neighbors(x, y)
-    if n < 2:
+    if n < 3:
         return 0
-    elif n < 5:
+    elif n < 4:
         return 1
+    elif n < 5:
+        return board[x, y]
     else:
         return 0
 
@@ -33,7 +35,7 @@ def step():
         for j in range(c):
             current[i, j] = getNextVal(i, j)
 
-    board = current
+    board = np.copy(current)
     print(current)
 
 initGlider()
