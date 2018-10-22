@@ -3,8 +3,13 @@ import numpy as np
 c = 20
 board = np.zeros((c,c))
 current = np.copy(board)
-board[0,1] = 1
 # if board[0,1]: print(board)
+# this site: https://bitstorm.org/gameoflife/
+
+def initGlider():
+    board[0, 1] = 1
+    board[1, 2] = 1
+    board[2, 0:3] = 1
 
 def neighbors(x, y):
     x1 = x-1 if x else x
@@ -31,6 +36,7 @@ def step():
     board = current
     print(current)
 
+initGlider()
 print(board)
 for i in range(1, 21):
     print('%d.' % i)
